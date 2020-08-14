@@ -1,15 +1,15 @@
 let express = require('express');
 let firebase = require('firebase')
 var firebaseConfig = {
-    apiKey: "AIzaSyDxCLJkEfGrDxup6-ROtrYbC_m7ocgqllE",
-    authDomain: "nodejs-class-practice.firebaseapp.com",
-    databaseURL: "https://nodejs-class-practice.firebaseio.com",
-    projectId: "nodejs-class-practice",
-    storageBucket: "nodejs-class-practice.appspot.com",
-    messagingSenderId: "1015240617673",
-    appId: "1:1015240617673:web:a1c2928cbe704d4baa2718",
-    measurementId: "G-KHL0Y789PP"
-};
+    apiKey: "AIzaSyAUfTR_cmYn3fcv9kbH72gvunhFUykNfGk",
+    authDomain: "myproject-4deff.firebaseapp.com",
+    databaseURL: "https://myproject-4deff.firebaseio.com",
+    projectId: "myproject-4deff",
+    storageBucket: "myproject-4deff.appspot.com",
+    messagingSenderId: "743442785939",
+    appId: "1:743442785939:web:134ba7062c459322fecf66",
+    measurementId: "G-T3891TSH0L"
+  };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 let db = firebase.firestore();
@@ -17,18 +17,22 @@ let app = express();
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');  
 app.get('/', async (req, res) => {  
-    //let data = await db.collection('classA').get();
-    //let userArr = []
-    // data.forEach((doc) => {
-    //     console.log(doc.data().name)
-    //     userArr.push(doc.data().name);
-    // })
+    let data = await db.collection('classA').get();
+    let userArr = []
+    data.forEach((doc) => {
+        console.log(doc.data().name)
+        userArr.push(doc.data().name);
+    })
     res.render('default', {  
         title: '首頁',  
-        users: ['Fisheep', 'Fiona', 'Alice', 'Bob']
-        //users: userArr
+       // users: ['Fisheep', 'Fiona', 'Alice', 'Bob']
+        users: userArr
     });  
 });
+
+app.get('/Sarah', (req,res) =>{
+    res.send('<h1>Sarah</h1>');
+})
 
 app.get("/firebase-test", async (req, res) => {
     let html = '';
@@ -79,8 +83,8 @@ app.get('/API/deleteMember', (req, res) => {
 app.get('/API/addMember', (req, res) => {
     db.collection('classA').add({
         name: req.query.name,
-        gender: req.query.age,
-        age: req.query.gender
+        gender: req.query.gender,
+        age: req.query.age
     });
     console.log("Add member !!");
     res.send("Add member success!");
@@ -90,6 +94,8 @@ app.get('*', (req, res) => {
     res.send('No Content');  
 });
 
-app.listen(3000, () => {  
+let port = process.env.port || 3000
+
+app.listen(port, () => {  
     console.log('Listening on port 3000');  
-}); 
+});
