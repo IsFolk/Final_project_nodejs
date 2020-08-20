@@ -23,7 +23,7 @@ app.get('/', async (req, res) => {
         console.log(doc.data().name)
         userArr.push(doc.data().name);
     })
-    res.render('default', {  
+    res.render('classA', {  
         title: '首頁',  
        // users: ['Fisheep', 'Fiona', 'Alice', 'Bob']
         users: userArr
